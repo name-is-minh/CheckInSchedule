@@ -10,16 +10,17 @@ function removeWorker(name) {
 
 function deleteEachCell(name, startCol, numCols) {
   var rangeVals = sheet.getDataRange().getValues();
+  var rowsToDelete = [];
 
-  //Reverse the 'for' loop.
-  for (var i = rangeVals.length - 1; i >= 0; i--) {
-    Logger.log(rangeVals[i][startCol]);
+  // Mark rows to delete
+  for (var i = 0; i < rangeVals.length; i++) {
     if (rangeVals[i][startCol] === name) {
-      var cellRange = '';
-      var cellStart = sheet.getRange(i + 1, startCol + 1).getA1Notation();
-      var cellEnd = sheet.getRange(i + 1, sheet.getLastColumn()).getA1Notation();
-      cellRange = cellRange.concat(cellStart, ':', cellEnd);
-      sheet.getRange(cellRange).deleteCells(SpreadsheetApp.Dimension.ROWS);
+      rowsToDelete.push(i + 1);
     }
+  }
+
+  // Delete rows in reverse order
+  for (var j = rowsToDelete.length - 1; j >= 0; j--) {
+    sheet.deleteRow(rowsToDelete[j]);
   }
 }
