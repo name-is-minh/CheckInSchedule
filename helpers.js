@@ -1,7 +1,6 @@
 function createTimeBars(cell, timeArray, color) {
   var range = createTimestampRow(cell, timeArray);
   range.setFontColor(color);
-
   return range;
 }
 
@@ -17,16 +16,14 @@ function selectColor(workerCount) {
   return COLORS[(workerCount % COLORS.length)];
 }
 
-function addConditionalRule(range, ruleString, color) {
+function addConditionalRule(rules, range, ruleString, color) {
   var rule = SpreadsheetApp.newConditionalFormatRule()
     .whenFormulaSatisfied(ruleString)
     .setFontColor(color)
     .setBackground(color)
     .setRanges([range])
     .build();
-  var rules = sheet.getConditionalFormatRules();
-  rules.push(rule);
-  sheet.setConditionalFormatRules(rules);
+  rules.push(rule); 
 }
 
 function addStatusRule(range, text, color) {
